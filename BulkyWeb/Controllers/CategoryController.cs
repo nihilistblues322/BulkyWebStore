@@ -25,9 +25,62 @@ namespace BulkyWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category categoryObject)
         {
-            _db.Categories.Add(categoryObject);
-            _db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(categoryObject);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null && id == 0) return NotFound();
+
+            Category? categoryFromDb = _db.Categories.Find(id);
+
+            if (categoryFromDb == null) return NotFound();
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category categoryObject)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Update(categoryObject);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null && id == 0) return NotFound();
+
+            Category? categoryFromDb = _db.Categories.Find(id);
+
+            if (categoryFromDb == null) return NotFound();
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int? id)
+        {
+            Category? categoryFromDb = _db.Categories.Find(id);
+
+            if (categoryFromDb == null) return NotFound();
+
+            _db.Categories.Remove(categoryFromDb);
+
             return RedirectToAction("Index");
+
         }
 
 
