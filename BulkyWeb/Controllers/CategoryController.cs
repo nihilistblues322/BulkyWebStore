@@ -22,6 +22,7 @@ namespace BulkyWeb.Controllers
             return View();
         }
 
+
         [HttpPost]
         public IActionResult Create(Category categoryObject)
         {
@@ -47,6 +48,7 @@ namespace BulkyWeb.Controllers
             return View(categoryFromDb);
         }
 
+
         [HttpPost]
         public IActionResult Edit(Category categoryObject)
         {
@@ -71,6 +73,7 @@ namespace BulkyWeb.Controllers
 
             return View(categoryFromDb);
         }
+
 
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
