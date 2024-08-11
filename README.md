@@ -30,22 +30,18 @@ This project is a basic backend for a book store application built using ASP.NET
 
 ### Screenshots
 
-#### User Registration
+
 ![User Registration](https://github.com/user-attachments/assets/48dba885-f2d6-4b7f-912f-28b34a4eda01)
 
-#### Book List
+
 ![Book List](https://github.com/user-attachments/assets/60a8dcff-a20a-4018-b901-60311b65ef3a)
 
-#### Role Management
+
 ![Role Management](https://github.com/user-attachments/assets/bae27050-038f-45a8-b2e4-025a95426254)
 
-### Contributing
 
-Contributions are welcome! Please fork this repository and submit a pull request with your changes.
 
-### License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
