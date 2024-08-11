@@ -103,31 +103,45 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View(productVM);
         }
 
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll(int id)
+        {
+            List<Product> objProductList = _unitOfWork
+                .Product.GetAll(includeProp: "Category")
+                .ToList();
+            return Json(new { data = objProductList });
+        }
+
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            if (id == null && id == 0)
-                return NotFound();
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
+            var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+            if (productToBeDeleted == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
 
-            if (productFromDb == null)
-                return NotFound();
+            string productPath = @"images\products\product-" + id;
+            string finalPath = Path.Combine(_webHostEnvironment.WebRootPath, productPath);
 
-            return View(productFromDb);
-        }
+            if (Directory.Exists(finalPath))
+            {
+                string[] filePaths = Directory.GetFiles(finalPath);
+                foreach (string filePath in filePaths)
+                {
+                    System.IO.File.Delete(filePath);
+                }
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
+                Directory.Delete(finalPath);
+            }
 
-            if (productFromDb == null)
-                return NotFound();
-
-            _unitOfWork.Product.Remove(productFromDb);
+            _unitOfWork.Product.Remove(productToBeDeleted);
             _unitOfWork.Save();
-            TempData["success"] = "Product deleted successfully";
 
-            return RedirectToAction("Index");
+            return Json(new { success = true, message = "Delete Successful" });
         }
+
+        #endregion
     }
 }
